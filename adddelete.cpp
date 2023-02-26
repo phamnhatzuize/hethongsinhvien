@@ -7,17 +7,18 @@ struct thongtin_KH{
     
 };
 
-void nhap_Du_Lieu(struct thongtin_KH KH[], int &biendem){
+void nhap_Du_Lieu(thongtin_KH KH[], int &biendem){
     cout << "nhap ho va ten khach hang: ";
     cin >> KH[biendem].hoten;
     cout << "nhap MSKH: ";
     cin >> KH[biendem].MSKH;
+    cout << "\nThem thanh cong\n";
     biendem++;
 }
-void xuat_Du_Lieu(struct thongtin_KH KH[], int biendem){
+void xuat_Du_Lieu(thongtin_KH KH[], int biendem){
     for(int i = 0; i <= biendem; i++){
     cout << "\nten khach hang: "<<KH[i].hoten;
-    cout << "\nMSKH: "<<KH[i].MSKH;
+    cout << "\nMSKH: "<<KH[i].MSKH << "\n";
     }
 }
 menu1(int &n){
@@ -26,10 +27,11 @@ menu1(int &n){
     cout << "\nnhap lua chon: ";
     cin >> n;
 }
-void Loop4(int m);
-void loop_1(int m){
-    thongtin_KH KH[100];
-    int biendem = 0;
+
+int main(){
+thongtin_KH KH[100];
+int m;
+int biendem = 0;
     menu1(m);
     if(m == 1){
         nhap_Du_Lieu(KH,biendem);
@@ -39,26 +41,5 @@ void loop_1(int m){
             xuat_Du_Lieu(KH,biendem);
         }
     }
-    Loop4(m);
-}
-int main(){
- thongtin_KH KH[100];
-int m;
-loop_1(m);
-
-
-}
-void Loop4(int m){
-    char a ;
-    do{
-        std :: cout << "\n\n\t\t\t\tBan co muon quay lai trang chu. Neu CO bam 'c' neu KHONG bam 'k': ";
-        std :: cin >> a;
-    }while((a != 'c' && a != 'k') && std :: cout << "\t\t\t\tnhap sai. Vui long nhap lai !!!");
-    if(a == 'c'){
-    	std :: cout << "\n";
-        //loading();
-    	//system("cls");
-        loop_1(m);
-    }
-    else{  }
+    main();
 }
