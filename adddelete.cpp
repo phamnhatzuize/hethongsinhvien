@@ -11,15 +11,16 @@ struct thongtin_KH{
 
 void nhap1(thongtin_KH &KH, int &biendem){
     cout << "nhap ho va ten khach hang: ";
-    cin >> KH.hoten;
+    cin.getline (KH.hoten,25);
     cout << "nhap MSKH: ";
     cin >> KH.MSKH;
     cout << "\nThem thanh cong\n";
-    ++biendem;
-    cout << "So luong KH la: " << biendem << endl;
+    
+    cout << "So luong KH la: " << biendem + 1 << endl;
 }
 
 void nhap_Du_Lieu(thongtin_KH KH[], int &biendem){
+	biendem++;
 	nhap1(KH[biendem], biendem);
 }
 
@@ -28,6 +29,7 @@ void xuat_Du_Lieu(thongtin_KH KH[], int biendem){
     cout << "\nten khach hang: "<< KH[i].hoten;
     cout << "\nMSKH: "<<KH[i].MSKH << "\n";
     }
+    
 }
 
 void menu1(int &n){
@@ -36,12 +38,13 @@ void menu1(int &n){
     cout << "\n3. Thoat he thong";
     cout << "\nnhap lua chon: ";
     cin >> n;
+    cin.ignore();
 }
 
 int main(){
 thongtin_KH KH[100];
 int m = 0;
-int biendem = 0;
+int biendem = -1;
 
     while (m != 3){
     menu1(m);
