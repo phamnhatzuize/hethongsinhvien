@@ -36,6 +36,8 @@ void xuat_Du_Lieu(thongtin_KH KH[], int biendem){
 int check_MSKH(int biendem, thongtin_KH KH[],string checkMS){
     int bienxuat = -1;
     for(int i = 0; i < biendem && bienxuat == -1; i++){
+        // Khi bienxuat gán bằng i phải kèm điều kiện để out vòng lặp
+        // Có thể sử dụng lệnh break;
         if(checkMS == KH[i].MSKH) {
 		bienxuat = i; 
 	}else{
