@@ -4,30 +4,34 @@ using namespace std;
 
 
 struct thongtin_KH{
-    char hoten[25];
-    string MSKH;
-
+    string MSKH,hoten;
+    int timkiem;
+ //   int tiendien = rand() % 100;
 };
 
 void nhap1(thongtin_KH &KH, int &biendem){
+	cin.ignore();
     cout << "nhap ho va ten khach hang: ";
-    cin >> KH.hoten;
+    getline(cin,KH.hoten);
     cout << "nhap MSKH: ";
     cin >> KH.MSKH;
-    cout << "\nThem thanh cong\n";
-    ++biendem;
-    cout << "So luong KH la: " << biendem << endl;
+    cout << "Them thanh cong\n";
 }
 
 void nhap_Du_Lieu(thongtin_KH KH[], int &biendem){
 	nhap1(KH[biendem], biendem);
+	++biendem;
+	cout << "So luong KH la: " << biendem << "\n\n";
 }
 
-void xuat_Du_Lieu(thongtin_KH KH[], int biendem){
+void xuat_Du_Lieu(thongtin_KH KH[], int &biendem){
+	cout << "------------------------------------------";
     for(int i = 0; i < biendem; i++){
-   	 cout << "\nten khach hang: "<< KH[i].hoten;
-    	cout << "\nMSKH: "<<KH[i].MSKH << "\n";
+   		cout << "\nten khach hang: "<< KH[i].hoten;
+    	cout << "\nMSKH: "<<KH[i].MSKH;
+    //	cout << "\nTien dien: " <<KH[i].tiendien * 3200 <<" VND\n";
     }
+    cout << "\n------------------------------------------\n";
 }
 
 
@@ -112,13 +116,62 @@ void update_Du_lieu(int &biendem, thongtin_KH KH[]){
 
 }
 
+void delname(int &biendem,thongtin_KH KH[], int i){
+	KH[i] = KH[biendem-1];
+	KH[biendem-1].hoten = "";
+	KH[biendem-1].MSKH = "";
+	biendem--;
+}
+    
+
+string tachten(string KH){
+	int cnt;
+	for (int i = KH.length(); i > 0 ; i--){
+		if (KH[i] == ' ') cnt = i;
+	}
+	return KH.substr((cnt+1),KH.length());
+}
+
+void SearchName(thongtin_KH KH[], int &biendem){
+	string KHx,ten;
+	int cnt = 0;
+	int m,n;
+	cin.ignore();
+	cout << "Nhap ten tim kiem: ";
+	getline(cin,ten);
+	for(int i = 0; i < biendem; i++){
+		KHx = tachten(KH[i].hoten) ;
+		if (KHx.length() == ten.length()){
+			if (KHx.compare(ten) == 0){
+				cnt++; KH[i].timkiem = cnt;
+				cout << KH[i].timkiem <<". Ten khach hang: " << KH[i].hoten << " - MSKH: " << KH[i].MSKH<< "\n";
+			}
+		}
+	}
+	
+	cout << "Lua chon khach hang: "; cin >> m;
+	for (int i = 0; i < biendem; i++){
+		if (KH[i].timkiem == m){
+			cout << "\n1. Chinh sua thong tin\n";
+			cout <<"2. Xoa khach hang\n";
+			cout <<"Vui long chon lenh: ";
+			cin >> n;cout << endl;
+			switch(n){
+		        case 1: nhap1(KH[i],biendem); break;
+		        case 2:	delname(biendem,KH,i); break;
+		        default: ;
+			}
+		}
+	}
+}
+
 // menu lua chon
 void menu1(int &n){
     cout << "1. Them khach hang";
     cout << "\n2. Xoa khach hang";
     cout << "\n3. Xuat danh sach";
     cout << "\n4. Cap nhat du lieu";
-    cout << "\n5. Thoat he thong";
+    cout << "\n5. Tim theo Ten";
     cout << "\nnhap lua chon: ";
     cin >> n;
 }
@@ -128,13 +181,14 @@ thongtin_KH KH[100];
 int m = 0;
 int biendem = 0;
 
-    while( m != 5){
+    while( m != 6){
     menu1(m);
     switch(m){
         case 1: nhap_Du_Lieu(KH,biendem); break;
         case 2: xoa_KH(biendem,KH); break;
         case 3: xuat_Du_Lieu(KH,biendem); break; 
         case 4: update_Du_lieu(biendem,KH); break;
+        case 5: SearchName(KH,biendem); break;
         default: ;
     }
 	}
