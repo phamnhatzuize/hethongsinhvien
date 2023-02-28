@@ -45,11 +45,12 @@ int check_MSKH(int biendem, thongtin_KH KH[],string checkMS){
     return bienxuat;
 }
 void xoa_Du_Lieu(int &biendem, thongtin_KH KH[],string checkMS){
-	int index = check_MSKH(biendem,KH,checkMS);
+	int index = check_MSKH(biendem,KH,checkMS); 
+        // Khi index ở vị trí cuối
 	if(index == (biendem - 1)){
 		KH[index].hoten == "";
         	KH[index].MSKH == "";
-	}else{
+	}else{   //khi index ở đầu hoặc giữa
 		for(int i = index; i < biendem - 1 ; i++){
     	    		KH[i] = KH[i + 1];
     		}
