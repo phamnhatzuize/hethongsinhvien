@@ -46,7 +46,7 @@ void nhap1(thongtin_KH &KH, int &biendem){
     gotoxy(50,16);
     cout << "nhap MSKH: ";
     gotoxy(77,15);
-    cin.ignore();
+    cin.ignore(0);
     getline(cin,KH.hoten);
     gotoxy(61,16);
     cin >> KH.MSKH;
@@ -166,34 +166,30 @@ void update_Du_lieu(int &biendem, thongtin_KH KH[]){
 
 string tachten(string &KH){
 	int cnt;
-	for (int i = KH.length(); i >= 0 ; i--){
+	for (int i = KH.length(); i > 0 ; i--){
 		if (KH[i] == ' '){
             cnt = i; 
             break;   
         } 
 	}
-	return KH.substr(cnt,KH.length());  // tra ve chuoi da duoc cat
+	return KH.substr((cnt + 1),KH.length());  // tra ve chuoi da duoc cat
 }
 
 void SearchName(thongtin_KH KH[], int &biendem){
 	string KHx,ten;
-	int cnt = 0;
 	int m,n;
-	//cin.ignore();
+    int cnt = 0;
+    cin.ignore();
 	cout << "Nhap ten tim kiem: ";
-	//getline(cin,ten);
-//    cin >> ten;
-//    cout << ""
+    getline(cin,ten);
 	for(int i = 0; i < biendem; i++){
 		KHx = tachten(KH[i].hoten) ;
-		//if (KHx.length() == ten.length()){
-			if (ten.compare(KHx) == 0){
-				cnt += 1 ; KH[i].timkiem = cnt;
-				cout << KH[i].timkiem <<". Ten khach hang: " << KH[i].hoten << " - MSKH: " << KH[i].MSKH<< "\n";
-			}
-		//}
+		if (ten.compare(KHx) == 0){
+			cnt ++; 
+            KH[i].timkiem = cnt;
+			cout << KH[i].timkiem <<". Ten khach hang: " << KH[i].hoten << " - MSKH: " << KH[i].MSKH<< "\n";
+		}
 	}
-	
 	cout << "Lua chon khach hang: "; cin >> m;
 	for (int i = 0; i < biendem; i++){
 		if (KH[i].timkiem == m){
@@ -212,35 +208,32 @@ void SearchName(thongtin_KH KH[], int &biendem){
 
 // menu lua chon
 int menu1(int &dk){
+    
+    string s[1000];
+    s[11]= "| 1. Them khach hang  |";
+    s[13]= "| 2. Xoa khach hang   |";
+    s[15]= "| 3. Xuat danh sach   |";
+    s[17]= "| 4. Cap nhat du lieu |";
+    s[19]= "| 5. Tim theo ten     |";
+    s[21]= "| 6. Thoat            |";
+
+    // ve bang menu
+    TextColor(3);
     gotoxy(50,10);
     cout << "+---------------------+";
+   
+        for(int i = 11; i < 23; i += 2){
+            gotoxy(50,i);
+            cout << s[i];
+            gotoxy(50,i+1);
+            cout << "+---------------------+";
+        }
+    // thay mau cho s[0]; s[0] mau 15 đang đè len s[0] mau 3
+    TextColor(15);
     gotoxy(50,11);
-    cout << "| 1. Them khach hang  |";
-    gotoxy(50,12);
-    cout << "+---------------------+";
-    gotoxy(50,13);
-    cout << "| 2. Xoa khach hang   |";
-    gotoxy(50,14);
-    cout << "+---------------------+";
-    gotoxy(50,15);
-    cout << "| 3. Xuat danh sach   |";
-    gotoxy(50,16);
-    cout << "+---------------------+";
-    gotoxy(50,17);
-    cout << "| 4. Cap nhat du lieu |";
-    gotoxy(50,18);
-    cout << "+---------------------+";
-    gotoxy(50,19);
-    cout << "| 5. Tim theo Ten     |";
-    gotoxy(50,20);
-    cout << "+---------------------+";
-    gotoxy(50,21);
-     cout << "| 6. Thoat            |";
-    gotoxy(50,22);
-    cout << "+---------------------+";
-    gotoxy(70,11);
-	// dk la toa do cua truc Oy;
+    cout << s[11];
     // bat su kien tu ban phim 
+    gotoxy(70,11);
     char c;
     while (1) {
         if (kbhit()) {
@@ -256,7 +249,7 @@ int menu1(int &dk){
                     if(dk == 11){
                         dk = 23;
                     }   
-                    gotoxy(71,dk-2);   
+                    gotoxy(70,dk-2);   
                     dk -= 2;
                     break;
                 }
@@ -264,11 +257,27 @@ int menu1(int &dk){
                     if (dk == 21){
                     	dk = 9;
 					}
-                    gotoxy(71,dk+2);
+                    gotoxy(70,dk+2);
                     dk += 2;
                     break;
                 }
             }
+            // SAU KHI DIEU KHIEN PHIM VE LAI BANG MENU
+            TextColor(3);
+            gotoxy(50,10);
+            cout << "+---------------------+";
+            for(int i = 11; i < 23; i += 2){
+                gotoxy(50,i);
+                cout << s[i];
+                gotoxy(50,i+1);
+                cout << "+---------------------+";
+            }
+            // CHO CAC PHAN TU MA ON TRO DANG CHI DOI MAU
+                TextColor(15);
+                gotoxy(50,dk);
+                cout << s[dk];
+    
+
         }
     }
 }
@@ -277,22 +286,22 @@ int main(){
     thongtin_KH KH[100];
     int m = 11;
     int biendem = 0;
-    int cmd = 0;
+    int check = 0;
    do{      
-            if(cmd == 1) system("cls");m = 11;
+            if(check == 1) system("cls");m = 11;
             menu1(m);
             system("cls");
-            cout << "nhan <- de quay lai\n";
             switch(m){
                 case 11: nhap_Du_Lieu(KH, biendem);break;
-                case 13: xoa_KH(biendem,KH); break;
-                case 15: xuat_Du_Lieu(KH,biendem); break;
+                case 13: xoa_KH(biendem,KH) ;break;
+                case 15: xuat_Du_Lieu(KH,biendem) ;break;
                 case 17: update_Du_lieu(biendem, KH);break;
                 case 19: SearchName(KH,biendem);break;
                 default: ;
-            }
-            return_p(cmd);
-    }while((cmd == 1));
+            } 
+            gotoxy(50,25);cout << "nhan <- de quay lai\n"; 
+            return_p(check);  
+    }while((check == 1));
 
     return 0;
 }
